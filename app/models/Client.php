@@ -8,7 +8,14 @@
     }
 
     public function displayReservations() {
-      $results = $this->db->query('SELECT * FROM `cruise` JOIN `port` on port.idport = cruise.idport JOIN ship on ship.idship join room on room.idship = cruise.idship join roomtype on roomtype.idtype = room.idtype where cruise.departuredate > NOW() and roomtype.price = (SELECT MIN(roomtype.price) FROM roomtype)');
+      $results = $this->db->query('SELECT *, MIN(roomtype.price) as min_price
+      FROM `cruise`
+      JOIN `port` ON port.idport = cruise.idport
+      JOIN `ship` ON ship.idship = cruise.idship
+      JOIN `room` ON room.idship = cruise.idship
+      JOIN `roomtype` ON roomtype.idtype = room.idtype
+      WHERE cruise.departuredate > NOW()
+      GROUP BY cruise.idcruise');
 
       return $results = $this->db->resultSet();
     }
@@ -17,6 +24,11 @@
       $results = $this->db->query('SELECT * FROM `room` JOIN ship on ship.idship = room.idship join roomtype on room.idtype = roomtype.idtype join cruise on cruise.idship = room.idship where cruise.idcruise = :idcruise ORDER BY roomtype.price ASC');
       $this->db->bind(':idcruise', $idcruise);
 
+      return $results = $this->db->resultSet();
+    }
+
+    public function getMinPrice(){
+      $results = $this->db->query('SELECT MIN(price) as minprice FROM `roomtype` ');
       return $results = $this->db->resultSet();
     }
 

@@ -49,13 +49,10 @@
             <p class="card-text"><strong>Departure Port:</strong> <?= $key->name?> | <?= $key->country?></p>
             <p class="card-text"><strong>Destination:</strong> <?= $key->destination ?></p>
             <p class="card-text"><strong>Duration:</strong> <?= $key->duration ?></p>
-            <p class="card-text"><strong>Minimum Price:</strong> <?= $key->price ?></p>
+            <p class="card-text"><strong>Minimum Price:</strong> <?= $key->min_price ?></p>
             <p class="card-text"><strong>Itinerary:</strong><br> <?= $key->itinerary ?></p>
             <a href="<?php echo URLROOT; ?>/pages/plan/<?php echo $key->idcruise; ?>" type="button" class="btn btn-primary">See Plans</a>
           </div>
-        </div>
-        <div class="card-footer text-muted text-center">
-        <?= $key->created_at ?>
         </div>
       </div>
       <?php } ?>

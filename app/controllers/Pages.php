@@ -26,19 +26,19 @@
           $filterdate = $this->pagesModel->getMonth($month);
           $data = [
             'reservations' => $search,
-            'reservations' => $filterdate
+            'reservations' => $filterdate,
           ];
           $this->view('pages/reservations', $data);
         }elseif(isset($_POST['search']) && !isset($_POST['month'])) {
           $search = $this->pagesModel->search($_POST['search']);
           $data = [
-            'reservations' => $search
+            'reservations' => $search,
           ];
           $this->view('pages/reservations', $data);
         }elseif(!isset($_POST['search']) && isset($_POST['month'])){
           $filterdate = $this->pagesModel->getMonth($_POST['month']);
           $data = [
-            'reservations' => $filterdate
+            'reservations' => $filterdate,
           ];
           $this->view('pages/reservations', $data);
         }
@@ -46,8 +46,9 @@
         $reservations =  $this->pagesModel->displayReservations();
 
           $data = [
-            'reservations' => $reservations
+            'reservations' => $reservations,
         ];
+
           $this->view('pages/reservations', $data);
       }
     }
@@ -102,17 +103,19 @@
 
     public function cancel($reservationid)
     {
-      $currentDateTime = new DateTime();
-      //$currentDateTime->sub(new DateInterval('P2D'));
       $givenDate = $this->pagesModel->bringdate($reservationid);
-
-      if ($givenDate < $currentDateTime) {
-        flash('date_error', 'can\'t cancel cruise going to start in less that two days','alert alert-danger');
-        redirect('pages/myreservations');
-    }
-
+      $givenDate = new DateTime($givenDate[0]->departuredate);
+      $currentDateTime = new DateTime();
+      $diff = $givenDate->diff($currentDateTime);
+      
+      if ($diff->days >= 2) {
         $this->pagesModel->cancel($reservationid);
+        flash('cancel_success', 'Your reservation has been canceled', 'alert alert-success');
         redirect('pages/myreservations');
+      } else {
+        flash('cancel_error', 'You can\'t cancel your reservation less than 2 days before the cruise', 'alert alert-danger');
+        redirect('pages/myreservations');
+      }
     }
 
 
