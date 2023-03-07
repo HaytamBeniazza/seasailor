@@ -56,9 +56,10 @@
       return $results = $this->db->resultSet();
     }
 
-    public function myreservations()
+    public function myreservations($idusers)
     {
-      $results = $this->db->query("SELECT * FROM `reservation` join users on reservation.idusers = users.idusers join cruise on cruise.idcruise = reservation.idcruise join room on room.idroom = reservation.idroom join ship on ship.idship = cruise.idship join port on port.idport = cruise.idport");
+      $results = $this->db->query("SELECT * FROM `reservation` join users on reservation.idusers = users.idusers join cruise on cruise.idcruise = reservation.idcruise join room on room.idroom = reservation.idroom join ship on ship.idship = cruise.idship join port on port.idport = cruise.idport join roomtype on roomtype.idtype = room.idtype where users.idusers = :idusers");
+      $this->db->bind(':idusers', $idusers);
   
       return $results = $this->db->resultSet();
     }
@@ -102,5 +103,18 @@
 
       return $results = $this->db->resultSet();
     }
+
+    public function getCapacity($idship) {
+      $results = $this->db->query('SELECT rooms FROM ship where idship = :idship');
+      $this->db->bind(':idship', $idship);
+      return $results = $this->db->resultSet();
+    }
+
+    public function countReservations($idcruise){
+      $results = $this->db->query('SELECT COUNT(*) as count FROM `reservation` where idcruise = :idcruise');
+      $this->db->bind(':idcruise', $idcruise);
+      return $results = $this->db->resultSet();
+    }
+
 
   }

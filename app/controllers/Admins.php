@@ -147,6 +147,7 @@
 
 
     public function addRoom(){
+        
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $data = [
@@ -155,12 +156,17 @@
                 'roomtype' => trim($_POST['roomtype']),
             ];
 
+            if($this->adminModel->findRoom($data['shipname'], $data['roomnumber'])){
+                flash('room_error', 'Room already exists','alert alert-danger');
+                redirect('admins/dashboard');
+            }
+                redirect('admins/dashboard');
+
             if($this->adminModel->addRoom($data)){
                 redirect('admins/dashboard');
             }else{
                 echo 'error adding ship';
             }
-
         }else{
             $product =  $this->adminModel->getship();
             $type =  $this->adminModel->getType();

@@ -32,7 +32,9 @@
             <p class="card-text"><strong>Departure Date:</strong> <?= $key->departuredate ?></p>
             <p class="card-text"><strong>Departure Port:</strong> <?= $key->name?> | <?= $key->country?></p>
             <p class="card-text"><strong>Destination:</strong> <?= $key->destination ?></p>
+            <p class="card-text"><strong>Room Number:</strong> <?= $key->roomNumber ?></p>
             <p class="card-text"><strong>Duration:</strong> <?= $key->duration ?></p>
+            <p class="card-text"><strong>Price:</strong> <?= $key->price ?></p>
             <p class="card-text"><strong>Itinerary:</strong><br> <?= $key->itinerary ?></p>
             <a href="<?php echo URLROOT; ?>/pages/cancel/<?php echo $key->reservationid; ?>" type="button" class="btn btn-primary">Cancel</a>
           </div>

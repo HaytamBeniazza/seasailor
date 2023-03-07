@@ -54,7 +54,8 @@
     }
     public function myreservations(){
 
-      $myreservations =  $this->pagesModel->myreservations();
+
+      $myreservations =  $this->pagesModel->myreservations($_SESSION['idusers']);
 
       $data = [
         'myreservations' => $myreservations
@@ -64,24 +65,26 @@
     }
 
     public function plan($idcruise){
-      if($this->pagesModel->checkForRooms($idcruise)){
-        flash('ship_with_no_rooms', 'There is no rooms available in this ship','alert alert-danger');
-      }
       if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        if($this->pagesModel->checkForRooms($idcruise)){
-          flash('ship_with_no_rooms', 'Can\'t reservate, no rooms available','alert alert-danger');
-          redirect('pages/reservations');exit;
-        }
 
         $reservation = explode(',' ,$_POST['reservation']);
 
         $idroom = $reservation[0];
         $idcruise = $reservation[1];
+        $idship = $reservation[2];
         $data = [
           'idroom' => $idroom,
           'idcruise' => $idcruise,
           'idusers' => $_SESSION['idusers'],
         ];
+
+        $roomCapacity = $this->pagesModel->getCapacity($idship);
+         $countReservations = $this->pagesModel->countReservations($idcruise);
+
+        if(($roomCapacity[0]->rooms) <= ($countReservations[0]->count)){
+          flash('fullship', 'Can\'t reservate, all rooms are full','alert alert-danger');
+          redirect('pages/reservations');exit;
+        }
 
         if($this->pagesModel->reservate($data)){
           redirect('pages/reservations');

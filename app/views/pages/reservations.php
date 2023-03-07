@@ -47,7 +47,7 @@
           ?>
       <div class="card mt-5">
         <div class="card-header text-center">
-          Featured
+          Best Cruise Deals
         </div>
         <div class="card-body d-flex">
           <img style="width:40%; height:auto; margin-right:10px" src="<?php echo URLROOT?>/uploads/<?= $key->image ?>" class="rounded" alt="">
@@ -112,7 +112,7 @@ function page(num){
   text-decoration: none;
 }
 .pagination button.activeB {
-  background-color: #4CAF50;
+  background-color: #0d6efd;
   margin: 2px;
   color: white;
   border: 0px solid black;

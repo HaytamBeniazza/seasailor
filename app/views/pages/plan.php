@@ -2,6 +2,7 @@
 
 <div class="container">
 <?php flash('ship_with_no_rooms'); ?>
+<?php flash('fullship'); ?>
     
     <form method="post">
         <div class="modal-header">
@@ -14,7 +15,7 @@
             <?php
             foreach ($data['getrooms'] as $key) {
             ?>
-            <option class="text-center" value="<?= $key->idroom ?>,<?= $key->idcruise ?>">Room Type: <?= $key->type ?> | Capacity: <?= $key->capacity?> | Price: <?= $key->price?> </option>
+            <option class="text-center" value="<?= $key->idroom ?>,<?= $key->idcruise ?>,<?= $key->idship ?>">Room Type: <?= $key->type ?> | Capacity: <?= $key->capacity?> | Price: <?= $key->price?> </option>
             <?php } ?>
             </select>
         </div>

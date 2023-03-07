@@ -157,5 +157,21 @@
       }
     }
 
+        public function findRoom($idship, $roomnumber){
+      $this->db->query('SELECT * FROM room WHERE idship = :idship and roomNumber = :roomnumber');
+      // Bind value
+      $this->db->bind(':idship', $idship);
+      $this->db->bind(':roomnumber', $roomnumber);
+
+      $row = $this->db->single();
+
+      // Check row
+      if($this->db->rowCount() > 0){
+        return true;
+      } else {
+        return false;
+      }
+    }
+
 
   }
